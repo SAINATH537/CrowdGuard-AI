@@ -1,0 +1,144 @@
+{% extends "base.html" %} {% block title %}Broadcast - Neural Nexus Dashboard{%
+endblock %} {% block head %} {{ super() }}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/broadcast.css') }}"
+/>
+{% endblock %} {% block content %}
+<h1>Broadcast</h1>
+<p>
+  This is the broadcast page. Here you can manage live broadcasts and streaming
+  events.
+</p>
+
+<div class="alarm-grid">
+  {% for alarm in alarms %}
+  <a
+    href="{{ url_for('broadcast.toggle', id=alarm.id) }}"
+    class="alarm-button {% if alarm.active %}active{% endif %}"
+  >
+    <div class="alarm-room">{{ alarm.room }}</div>
+    <div class="alarm-location">{{ alarm.location }}</div>
+    <div class="alarm-status">
+      {% if alarm.active %}Active{% else %}Inactive{% endif %}
+    </div>
+  </a>
+  {% endfor %}
+</div>
+
+<hr />
+
+<h1>Voice Broadcast</h1>
+<p>Select a location below to record a voice message:</p>
+<div id="voiceStatus"></div>
+<table class="voice-table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Room</th>
+      <th>Location</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for alarm in alarms %}
+    <tr>
+      <td>{{ loop.index }}</td>
+      <td>{{ alarm.room }}</td>
+      <td>{{ alarm.location }}</td>
+      <td>
+        <button
+          class="voice-button"
+          id="record-btn-{{ alarm.id }}"
+          onclick="toggleRecording({{ alarm.id }})"
+        >
+          Start Recording
+        </button>
+        <button
+          class="replay-button"
+          id="replay-btn-{{ alarm.id }}"
+          style="display: none"
+          onclick="replayRecording({{ alarm.id }})"
+        >
+          Replay Recording
+        </button>
+        <span id="timer-{{ alarm.id }}"></span>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %} {% block scripts %}
+<script>
+  let mediaRecorders = {};
+  let audioChunks = {};
+  let recordings = {};
+  let timers = {};
+
+  function toggleRecording(alarmId) {
+    const recordBtn = document.getElementById(`record-btn-${alarmId}`);
+    const replayBtn = document.getElementById(`replay-btn-${alarmId}`);
+    const timerEl = document.getElementById(`timer-${alarmId}`);
+
+    if (
+      mediaRecorders[alarmId] &&
+      mediaRecorders[alarmId].state === "recording"
+    ) {
+      mediaRecorders[alarmId].stop();
+      recordBtn.textContent = "Start Recording";
+      clearInterval(timers[alarmId]);
+    } else {
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        alert("Microphone access is not supported in your browser.");
+        return;
+      }
+
+      navigator.mediaDevices
+        .getUserMedia({ audio: true })
+        .then((stream) => {
+          mediaRecorders[alarmId] = new MediaRecorder(stream);
+          audioChunks[alarmId] = [];
+          let seconds = 10;
+          recordBtn.textContent = `${seconds}s Remaining`;
+          replayBtn.style.display = "none";
+
+          mediaRecorders[alarmId].ondataavailable = (event) => {
+            audioChunks[alarmId].push(event.data);
+          };
+
+          mediaRecorders[alarmId].onstop = () => {
+            const audioBlob = new Blob(audioChunks[alarmId], {
+              type: "audio/webm",
+            });
+            recordings[alarmId] = new Audio(URL.createObjectURL(audioBlob));
+            recordBtn.textContent = "Start Recording";
+            replayBtn.style.display = "inline-block";
+            timerEl.textContent = "";
+            stream.getTracks().forEach((track) => track.stop());
+          };
+
+          mediaRecorders[alarmId].start();
+          timers[alarmId] = setInterval(() => {
+            seconds--;
+            if (seconds > 0) {
+              recordBtn.textContent = `${seconds}s Remaining`;
+            } else {
+              mediaRecorders[alarmId].stop();
+              clearInterval(timers[alarmId]);
+            }
+          }, 1000);
+        })
+        .catch((err) => {
+          console.error("Microphone access error:", err);
+          alert("Microphone access denied.");
+        });
+    }
+  }
+
+  function replayRecording(alarmId) {
+    if (recordings[alarmId]) {
+      recordings[alarmId].play();
+    }
+  }
+</script>
+{% endblock %}
