@@ -1,13 +1,72 @@
-CrowdGuard - AI is a comprehensive security and surveillance web application that leverages existing CCTV networks, machine learning, and real-time analytics to detect fights and manage broadcasts across various locations. The platform provides live feeds, historical logs, advanced analytics, and role-based controls to ensure efficient monitoring and rapid response.
+# 🧠 Neural Nexus Dashboard
 
-Features
-Real-Time Fight Detection: Processes live CCTV video streams using a custom ML model with an AttentionLayer to detect fights in real time.
-Live Feed Display: Presents live video streams from security cameras with real-time ML predictions (fight vs. no fight).
-Historical Data Logging: Logs anomaly events and alarm history with detailed timestamps, durations, and actions taken.
-Analytics Dashboard: Visualizes performance metrics and insights using Chart.js, including anomaly status distribution, trend analysis, and alarm durations.
-Voice Broadcast: Allows admins to send voice messages to specific rooms by recording audio from the browser microphone.
-Text Broadcast: Enables admins to send text broadcast messages to various locations.
-Role-Based Access Control: Only authenticated users can view feeds, while administrative tasks such as broadcast and data management are restricted to admins.
-Rate Limiting: All routes are rate limited to prevent abuse using Flask-Limiter.
-Modular Architecture: Built using Flask blueprints for feed, broadcast, history, authentication, and analytics.
-Data Management Scripts: Includes scripts to seed sample data and clear anomalies and alarm history.
+> AI-Powered Real-Time Surveillance & Security Intelligence Platform
+
+Neural Nexus Dashboard is a production-grade security and surveillance web application that leverages existing CCTV infrastructure, machine learning, and real-time analytics to detect violent activity and manage emergency broadcasts across distributed locations.
+
+The system provides live monitoring, anomaly detection, historical logging, advanced analytics, and secure role-based access control — enabling rapid incident response and operational efficiency.
+
+---
+
+# 🚀 Core Features
+
+## 🔍 Real-Time Fight Detection
+- Processes live CCTV streams using a custom ML model with AttentionLayer
+- Real-time classification: Fight vs No Fight
+- Low-latency prediction pipeline
+
+## 📹 Live Feed Monitoring
+- Multi-camera live feed display
+- Overlayed ML predictions
+- Authenticated user access only
+
+## 🗂 Historical Event Logging
+- Stores anomaly events and alarm history
+- Timestamped records
+- Duration tracking
+- Action audit logs
+
+## 📊 Analytics Dashboard
+- Built with Chart.js
+- Anomaly distribution charts
+- Trend analysis over time
+- Alarm duration insights
+
+## 🔊 Voice Broadcast
+- Browser-based microphone recording
+- Room-specific audio broadcast
+- Admin-only access
+
+## 💬 Text Broadcast
+- Real-time text alerts
+- Multi-location distribution
+- Admin-controlled messaging
+
+## 🔐 Role-Based Access Control
+- Authenticated user access for feeds
+- Admin-only broadcast & data management
+- Secure session management
+
+## ⚡ Rate Limiting
+- API and route rate limiting to prevent abuse
+- Configurable request thresholds
+
+## 🧩 Modular Architecture
+- Django apps for:
+  - feed
+  - broadcast
+  - history
+  - analytics
+  - authentication
+  - ml_model
+
+---
+
+# 🏗 Production Setup Guide
+
+## 1️ Clone Repository
+
+```bash
+git clone https://github.com/yourusername/neural-nexus-dashboard.git
+cd neural-nexus-dashboard
+
