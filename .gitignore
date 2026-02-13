@@ -1,3 +1,191 @@
-/model
-/.venv
+# SafeSight - Comprehensive .gitignore
+# Updated for professional full-stack development
+
+# Python/Django
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environments
+.env
+.venv/
+venv/
+ENV/
+env/
 .venv.zip
+
+# Django Specific
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+media/
+staticfiles/
+
+# Node.js/Next.js (Landing Page)
+landing-page-for-security/node_modules/
+landing-page-for-security/.next/
+landing-page-for-security/out/
+landing-page-for-security/build/
+landing-page-for-security/dist/
+landing-page-for-security/.vercel
+landing-page-for-security/.DS_Store
+landing-page-for-security/*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment Variables
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE & Editor Files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# OS Generated Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Model & Data Files (Security - keep private)
+model/*.h5
+model/*.pkl
+model/*.joblib
+model/fight_detection_model.h5
+data/
+datasets/
+*.csv
+*.json
+!package.json
+!package-lock.json
+
+# Static & Upload Files
+app/static/videos/
+app/static/uploads/
+app/static/media/
+uploads/
+media/
+
+# Logs & Runtime
+*.log
+logs/
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage & Testing
+.coverage
+.pytest_cache/
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# Documentation
+docs/_build/
+site/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb
+
+# pyenv
+.python-version
+
+# pipenv
+Pipfile.lock
+
+# PEP 582
+__pypackages__/
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Spyder
+.spyderproject
+.spyproject
+
+# Rope
+.ropeproject
+
+# mkdocs
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre
+.pyre/
+
+# Backup Files
+*.bak
+*.backup
+*.old
+*.orig
+*.tmp
+*.temp
+
+# Security & Sensitive Files
+*.key
+*.pem
+*.crt
+config.py
+secrets.py
+private/
+secrets/
+
+# Next.js Specific
+.next/
+out/
+build
+dist
+.npm
+.eslintcache
+
+# Additional Development Files
+.pnp
+.pnp.js
+.npm
+.eslintcache
