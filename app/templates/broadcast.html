@@ -1,144 +1,254 @@
-{% extends "base.html" %} {% block title %}Broadcast - Neural Nexus Dashboard{%
-endblock %} {% block head %} {{ super() }}
-<link
-  rel="stylesheet"
-  href="{{ url_for('static', filename='css/broadcast.css') }}"
-/>
-{% endblock %} {% block content %}
-<h1>Broadcast</h1>
-<p>
-  This is the broadcast page. Here you can manage live broadcasts and streaming
-  events.
-</p>
+{% extends "base.html" %}
 
-<div class="alarm-grid">
-  {% for alarm in alarms %}
-  <a
-    href="{{ url_for('broadcast.toggle', id=alarm.id) }}"
-    class="alarm-button {% if alarm.active %}active{% endif %}"
-  >
-    <div class="alarm-room">{{ alarm.room }}</div>
-    <div class="alarm-location">{{ alarm.location }}</div>
-    <div class="alarm-status">
-      {% if alarm.active %}Active{% else %}Inactive{% endif %}
+{% block title %}Broadcast - Neural Nexus Dashboard{% endblock %}
+
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/broadcast.css') }}" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="broadcast-wrapper">
+    <!-- Animated Background -->
+    <div class="bg-decoration">
+        <div class="bg-gradient-1"></div>
+        <div class="bg-gradient-2"></div>
     </div>
-  </a>
-  {% endfor %}
+
+    <div class="broadcast-container">
+        <!-- Hero Header -->
+        <div class="broadcast-hero">
+            <div class="hero-badge">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M8 2V14M2 8H14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    <circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="2"/>
+                </svg>
+                <span>Live Management</span>
+            </div>
+            <h1 class="hero-title">Broadcast Center</h1>
+            <p class="hero-description">
+                Manage live broadcasts and streaming events across all locations. Control alarm systems and voice announcements in real-time.
+            </p>
+        </div>
+
+        <!-- Alarm Control Section -->
+        <div class="section-header">
+            <div class="section-title">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 6V12L16 14M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <h2>Alarm Control</h2>
+            </div>
+            <div class="alarm-stats">
+                <div class="stat-pill stat-active">
+                    <span class="stat-dot"></span>
+                    <span id="active-count">0</span> Active
+                </div>
+                <div class="stat-pill stat-inactive">
+                    <span class="stat-dot"></span>
+                    <span id="inactive-count">0</span> Inactive
+                </div>
+            </div>
+        </div>
+
+        <div class="alarm-grid">
+            {% for alarm in alarms %}
+            <a href="{{ url_for('broadcast.toggle', id=alarm.id) }}" class="alarm-button {% if alarm.active %}active{% endif %}">
+                <div class="alarm-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 6V12L16 14M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="alarm-content">
+                    <div class="alarm-room">{{ alarm.room }}</div>
+                    <div class="alarm-location">{{ alarm.location }}</div>
+                </div>
+                <div class="alarm-status">
+                    <span class="status-indicator"></span>
+                    {% if alarm.active %}Active{% else %}Inactive{% endif %}
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+
+        <div class="section-divider"></div>
+
+        <!-- Voice Broadcast Section -->
+        <div class="section-header">
+            <div class="section-title">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 1C12 1 8 5 8 9C8 11.2091 9.79086 13 12 13C14.2091 13 16 11.2091 16 9C16 5 12 1 12 1Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12 13V19M8 19H16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <h2>Voice Broadcast</h2>
+            </div>
+        </div>
+
+        <p class="section-description">
+            Select a location below to record and broadcast voice messages across the facility.
+        </p>
+
+        <div id="voiceStatus" class="voice-status"></div>
+
+        <div class="voice-table-wrapper">
+            <table class="voice-table">
+                <thead>
+                    <tr>
+                        <th class="col-serial">#</th>
+                        <th>Room</th>
+                        <th>Location</th>
+                        <th class="col-action">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for alarm in alarms %}
+                    <tr class="voice-row">
+                        <td class="col-serial">{{ loop.index }}</td>
+                        <td>
+                            <div class="room-cell">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <rect x="2" y="3" width="12" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/>
+                                    <path d="M5 7H11M5 10H9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                                <span>{{ alarm.room }}</span>
+                            </div>
+                        </td>
+                        <td>{{ alarm.location }}</td>
+                        <td class="col-action">
+                            <div class="action-controls">
+                                <button class="voice-button" id="record-btn-{{ alarm.id }}" onclick="toggleRecording({{ alarm.id }})">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                        <circle cx="8" cy="6" r="3" stroke="currentColor" stroke-width="1.5"/>
+                                        <path d="M5 9C5 9 5 12 8 12C11 12 11 9 11 9M8 12V14M6 14H10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                    </svg>
+                                    <span>Start Recording</span>
+                                </button>
+                                <button class="replay-button" id="replay-btn-{{ alarm.id }}" style="display: none" onclick="replayRecording({{ alarm.id }})">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                        <path d="M3 8L6 5V11L3 8Z" fill="currentColor"/>
+                                        <path d="M8 8L11 5V11L8 8Z" fill="currentColor"/>
+                                    </svg>
+                                    <span>Replay</span>
+                                </button>
+                                <span class="timer" id="timer-{{ alarm.id }}"></span>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
+{% endblock %}
 
-<hr />
-
-<h1>Voice Broadcast</h1>
-<p>Select a location below to record a voice message:</p>
-<div id="voiceStatus"></div>
-<table class="voice-table">
-  <thead>
-    <tr>
-      <th>#</th>
-      <th>Room</th>
-      <th>Location</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for alarm in alarms %}
-    <tr>
-      <td>{{ loop.index }}</td>
-      <td>{{ alarm.room }}</td>
-      <td>{{ alarm.location }}</td>
-      <td>
-        <button
-          class="voice-button"
-          id="record-btn-{{ alarm.id }}"
-          onclick="toggleRecording({{ alarm.id }})"
-        >
-          Start Recording
-        </button>
-        <button
-          class="replay-button"
-          id="replay-btn-{{ alarm.id }}"
-          style="display: none"
-          onclick="replayRecording({{ alarm.id }})"
-        >
-          Replay Recording
-        </button>
-        <span id="timer-{{ alarm.id }}"></span>
-      </td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
-{% endblock %} {% block scripts %}
+{% block scripts %}
 <script>
-  let mediaRecorders = {};
-  let audioChunks = {};
-  let recordings = {};
-  let timers = {};
+let mediaRecorders = {};
+let audioChunks = {};
+let recordings = {};
+let timers = {};
 
-  function toggleRecording(alarmId) {
+// Update alarm stats
+document.addEventListener('DOMContentLoaded', function() {
+    const activeAlarms = document.querySelectorAll('.alarm-button.active').length;
+    const totalAlarms = document.querySelectorAll('.alarm-button').length;
+    document.getElementById('active-count').textContent = activeAlarms;
+    document.getElementById('inactive-count').textContent = totalAlarms - activeAlarms;
+    
+    // Animate voice rows
+    document.querySelectorAll('.voice-row').forEach((row, idx) => {
+        setTimeout(() => {
+            row.style.opacity = '1';
+            row.style.transform = 'translateY(0)';
+        }, idx * 50);
+    });
+});
+
+function toggleRecording(alarmId) {
     const recordBtn = document.getElementById(`record-btn-${alarmId}`);
     const replayBtn = document.getElementById(`replay-btn-${alarmId}`);
     const timerEl = document.getElementById(`timer-${alarmId}`);
 
-    if (
-      mediaRecorders[alarmId] &&
-      mediaRecorders[alarmId].state === "recording"
-    ) {
-      mediaRecorders[alarmId].stop();
-      recordBtn.textContent = "Start Recording";
-      clearInterval(timers[alarmId]);
+    if (mediaRecorders[alarmId] && mediaRecorders[alarmId].state === "recording") {
+        mediaRecorders[alarmId].stop();
+        recordBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="6" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M5 9C5 9 5 12 8 12C11 12 11 9 11 9M8 12V14M6 14H10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span>Start Recording</span>';
+        recordBtn.classList.remove('recording');
+        clearInterval(timers[alarmId]);
     } else {
-      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-        alert("Microphone access is not supported in your browser.");
-        return;
-      }
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+            showVoiceStatus('Microphone access is not supported in your browser.', 'error');
+            return;
+        }
 
-      navigator.mediaDevices
-        .getUserMedia({ audio: true })
-        .then((stream) => {
-          mediaRecorders[alarmId] = new MediaRecorder(stream);
-          audioChunks[alarmId] = [];
-          let seconds = 10;
-          recordBtn.textContent = `${seconds}s Remaining`;
-          replayBtn.style.display = "none";
+        navigator.mediaDevices.getUserMedia({ audio: true })
+            .then((stream) => {
+                mediaRecorders[alarmId] = new MediaRecorder(stream);
+                audioChunks[alarmId] = [];
+                let seconds = 10;
+                recordBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="3" fill="currentColor"/></svg><span>${seconds}s Remaining</span>`;
+                recordBtn.classList.add('recording');
+                replayBtn.style.display = "none";
 
-          mediaRecorders[alarmId].ondataavailable = (event) => {
-            audioChunks[alarmId].push(event.data);
-          };
+                mediaRecorders[alarmId].ondataavailable = (event) => {
+                    audioChunks[alarmId].push(event.data);
+                };
 
-          mediaRecorders[alarmId].onstop = () => {
-            const audioBlob = new Blob(audioChunks[alarmId], {
-              type: "audio/webm",
+                mediaRecorders[alarmId].onstop = () => {
+                    const audioBlob = new Blob(audioChunks[alarmId], { type: "audio/webm" });
+                    recordings[alarmId] = new Audio(URL.createObjectURL(audioBlob));
+                    recordBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="6" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M5 9C5 9 5 12 8 12C11 12 11 9 11 9M8 12V14M6 14H10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span>Start Recording</span>';
+                    recordBtn.classList.remove('recording');
+                    replayBtn.style.display = "inline-flex";
+                    timerEl.textContent = "";
+                    stream.getTracks().forEach((track) => track.stop());
+                    showVoiceStatus('Recording saved successfully!', 'success');
+                };
+
+                mediaRecorders[alarmId].start();
+                timers[alarmId] = setInterval(() => {
+                    seconds--;
+                    if (seconds > 0) {
+                        recordBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="3" fill="currentColor"/></svg><span>${seconds}s Remaining</span>`;
+                    } else {
+                        mediaRecorders[alarmId].stop();
+                        clearInterval(timers[alarmId]);
+                    }
+                }, 1000);
+            })
+            .catch((err) => {
+                console.error("Microphone access error:", err);
+                showVoiceStatus('Microphone access denied. Please enable microphone permissions.', 'error');
             });
-            recordings[alarmId] = new Audio(URL.createObjectURL(audioBlob));
-            recordBtn.textContent = "Start Recording";
-            replayBtn.style.display = "inline-block";
-            timerEl.textContent = "";
-            stream.getTracks().forEach((track) => track.stop());
-          };
-
-          mediaRecorders[alarmId].start();
-          timers[alarmId] = setInterval(() => {
-            seconds--;
-            if (seconds > 0) {
-              recordBtn.textContent = `${seconds}s Remaining`;
-            } else {
-              mediaRecorders[alarmId].stop();
-              clearInterval(timers[alarmId]);
-            }
-          }, 1000);
-        })
-        .catch((err) => {
-          console.error("Microphone access error:", err);
-          alert("Microphone access denied.");
-        });
     }
-  }
+}
 
-  function replayRecording(alarmId) {
+function replayRecording(alarmId) {
     if (recordings[alarmId]) {
-      recordings[alarmId].play();
+        recordings[alarmId].play();
+        showVoiceStatus('Playing recording...', 'info');
     }
-  }
+}
+
+function showVoiceStatus(message, type) {
+    const statusEl = document.getElementById('voiceStatus');
+    statusEl.innerHTML = `
+        <div class="status-message status-${type}">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                ${type === 'success' ? '<path d="M7 10L9 12L13 8M19 10C19 14.9706 14.9706 19 10 19C5.02944 19 1 14.9706 1 10C1 5.02944 5.02944 1 10 1C14.9706 1 19 5.02944 19 10Z" stroke="currentColor" stroke-width="2"/>' : ''}
+                ${type === 'error' ? '<path d="M10 6V10M10 14H10.01M19 10C19 14.9706 14.9706 19 10 19C5.02944 19 1 14.9706 1 10C1 5.02944 5.02944 1 10 1C14.9706 1 19 5.02944 19 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>' : ''}
+                ${type === 'info' ? '<path d="M10 11V14M10 7H10.01M19 10C19 14.9706 14.9706 19 10 19C5.02944 19 1 14.9706 1 10C1 5.02944 5.02944 1 10 1C14.9706 1 19 5.02944 19 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>' : ''}
+            </svg>
+            <span>${message}</span>
+        </div>
+    `;
+    
+    setTimeout(() => {
+        statusEl.innerHTML = '';
+    }, 4000);
+}
 </script>
 {% endblock %}
