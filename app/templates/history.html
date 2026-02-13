@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 
-{% block title %}History - Neural Nexus Dashboard{% endblock %}
+{% block title %}History - SafeSight Dashboard{% endblock %}
 
 {% block head %}
 {{ super() }}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/history.css') }}" />
+<link rel="stylesheet" href="/static/css/history.css" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -35,7 +35,7 @@
                 
                 {% if current_user.role == 'admin' %}
                 <div class="hero-actions">
-                    <a class="btn-primary" href="{{ url_for('history.add') }}">
+                    <a class="btn-primary" href="/history/add">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                             <path d="M10 4V16M4 10H16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                         </svg>

@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 
-{% block title %}Broadcast - Neural Nexus Dashboard{% endblock %}
+{% block title %}Broadcast - SafeSight Dashboard{% endblock %}
 
 {% block head %}
 {{ super() }}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/broadcast.css') }}" />
+<link rel="stylesheet" href="/static/css/broadcast.css" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -56,7 +56,7 @@
 
         <div class="alarm-grid">
             {% for alarm in alarms %}
-            <a href="{{ url_for('broadcast.toggle', id=alarm.id) }}" class="alarm-button {% if alarm.active %}active{% endif %}">
+            <a href="/broadcast/toggle/{{ alarm.id }}" class="alarm-button {% if alarm.active %}active{% endif %}">
                 <div class="alarm-icon">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                         <path d="M12 6V12L16 14M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>

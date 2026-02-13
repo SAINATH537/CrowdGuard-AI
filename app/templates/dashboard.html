@@ -1,0 +1,192 @@
+{% extends "base_safesight.html" %}
+{% block title %}SafeSight - Security Dashboard{% endblock %}
+
+{% block content %}
+<div class="fade-in">
+    <!-- Welcome Section -->
+    <div class="card mb-6">
+        <div class="card-header">
+            <div>
+                <h1 class="card-title">Welcome to SafeSight</h1>
+                <p class="card-description">
+                    Advanced AI-powered security monitoring system for real-time threat detection and response
+                </p>
+            </div>
+            {% if current_user.is_authenticated %}
+            <div class="status-badge status-online">
+                <svg width="8" height="8" viewBox="0 0 8 8" fill="currentColor">
+                    <circle cx="4" cy="4" r="3"/>
+                </svg>
+                System Online
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mb-6">
+        <div class="card">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-muted-foreground mb-1">Active Cameras</p>
+                    <p class="text-2xl font-bold">12</p>
+                </div>
+                <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                    📹
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-muted-foreground mb-1">Incidents Today</p>
+                    <p class="text-2xl font-bold">3</p>
+                </div>
+                <div class="w-12 h-12 bg-destructive/10 rounded-lg flex items-center justify-center">
+                    ⚠️
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-muted-foreground mb-1">Response Time</p>
+                    <p class="text-2xl font-bold">2.3s</p>
+                </div>
+                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                    ⚡
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-muted-foreground mb-1">System Uptime</p>
+                    <p class="text-2xl font-bold">99.9%</p>
+                </div>
+                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                    ✅
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 mb-6">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Quick Actions</h2>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <a href="/feed/" class="btn btn-primary">
+                    📹 View Live Feed
+                </a>
+                <a href="/history/add/" class="btn btn-secondary">
+                    📝 Report Incident
+                </a>
+                <a href="/broadcast/" class="btn btn-outline">
+                    🚨 Send Alert
+                </a>
+                <a href="/analytics/" class="btn btn-outline">
+                    📊 View Analytics
+                </a>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Recent Activity</h2>
+            </div>
+            <div class="space-y-3">
+                <div class="flex items-center gap-3 p-3 bg-muted/50 rounded-lg">
+                    <div class="w-2 h-2 bg-destructive rounded-full"></div>
+                    <div class="flex-1">
+                        <p class="font-medium">Fight detected - Camera 4</p>
+                        <p class="text-sm text-muted-foreground">2 minutes ago</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3 p-3 bg-muted/50 rounded-lg">
+                    <div class="w-2 h-2 bg-warning rounded-full"></div>
+                    <div class="flex-1">
+                        <p class="font-medium">Suspicious activity - Camera 7</p>
+                        <p class="text-sm text-muted-foreground">15 minutes ago</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3 p-3 bg-muted/50 rounded-lg">
+                    <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                    <div class="flex-1">
+                        <p class="font-medium">System check completed</p>
+                        <p class="text-sm text-muted-foreground">1 hour ago</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- System Status -->
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">System Status</h2>
+            <div class="status-badge status-online">All Systems Operational</div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div>
+                <h3 class="font-medium mb-3">AI Detection</h3>
+                <div class="space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm">Model Status</span>
+                        <div class="status-badge status-online">Active</div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm">Accuracy</span>
+                        <span class="font-medium">94.2%</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm">Processing Speed</span>
+                        <span class="font-medium">0.3s/frame</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div>
+                <h3 class="font-medium mb-3">Camera Network</h3>
+                <div class="space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm">Connected</span>
+                        <span class="font-medium">12/12</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm">Resolution</span>
+                        <span class="font-medium">1080p</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm">FPS</span>
+                        <span class="font-medium">30</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div>
+                <h3 class="font-medium mb-3">Storage</h3>
+                <div class="space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm">Used Space</span>
+                        <span class="font-medium">2.3TB</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm">Available</span>
+                        <span class="font-medium">7.7TB</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm">Retention</span>
+                        <span class="font-medium">30 days</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

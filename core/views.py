@@ -38,6 +38,7 @@ def _get_ml_model():
 
 
 def home(request: HttpRequest) -> HttpResponse:
+    # Use simple home page that works
     return render_template(request, 'home.html')
 
 
@@ -97,6 +98,10 @@ def _videos_folder() -> str:
 
 @login_required
 def live_feed(request: HttpRequest) -> HttpResponse:
+    current_user = get_current_user(request)
+    if not current_user.is_authenticated:
+        return redirect(reverse('auth.login'))
+
     videos_folder = _videos_folder()
     if not os.path.exists(videos_folder):
         return JsonResponse({'error': 'Videos folder not found.'}, status=404)
@@ -111,6 +116,7 @@ def live_feed(request: HttpRequest) -> HttpResponse:
 
     video_urls = [f"{settings.STATIC_URL}videos/{video}" for video in video_files]
 
+    # Use simple feed template
     return render_template(request, 'feed.html', {'video_urls': video_urls})
 
 
