@@ -3,11 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{% block title %}Neural Nexus Dashboard{% endblock %}</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/index.css') }}"
-    />
+    <title>{% block title %}SafeSight Dashboard{% endblock %}</title>
+    <link rel="stylesheet" href="/static/css/index.css" />
     {% block head %}{% endblock %}
     <style>
       #flash-message-container {
@@ -35,42 +32,35 @@
     </style>
   </head>
   <body>
-    {% with messages = get_flashed_messages(with_categories=true) %} {% if
-    messages %}
+    {% if messages %}
     <div id="flash-message-container">
-      {% for category, message in messages %}
-      <div class="flash-message {{ category }}">{{ message }}</div>
+      {% for message in messages %}
+      <div class="flash-message">{{ message }}</div>
       {% endfor %}
     </div>
-    {% endif %} {% endwith %}
+    {% endif %}
 
     <div id="container">
       <div id="sidebar">
-        <h2 style="color: white;">Neural Nexus</h2>
+        <h2 style="color: white;">SafeSight</h2>
         <a href="/">Home</a>
-        <a href="{{ url_for('feed.live_feed') }}">View Live Feed</a>
-        <a href="/history">History</a>
-        <a href="/broadcast">Broadcast and Alarms</a>
-        <a href="/analytics">Analytics</a>
+        <a href="/feed/">View Live Feed</a>
+        <a href="/history/">History</a>
+        <a href="/broadcast/">Broadcast and Alarms</a>
+        <a href="/analytics/">Analytics</a>
         <br />
         <hr />
         <br />
         {% if current_user.is_authenticated %}
-        <div class=""user-info" style="margin-bottom: 20px; text-align: center">
+        <div class="user-info" style="margin-bottom: 20px; text-align: center">
           <p style="color: #fff; margin: 0">
             Welcome, {{ current_user.username }}
           </p>
-          <a
-            href="{{ url_for('auth.logout') }}"
-            >Logout</a
-          >
+          <a href="/auth/logout">Logout</a>
         </div>
         {% else %}
         <div class="login-link" style="margin-bottom: 20px; text-align: center">
-          <a
-            href="{{ url_for('auth.login') }}"
-            >Login</a
-          >
+          <a href="/auth/login">Login</a>
         </div>
         {% endif %}
       </div>

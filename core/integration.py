@@ -2,7 +2,7 @@
 # Connects landing page to main application seamlessly
 
 from django.urls import path
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.http import HttpResponse
 
 def landing_redirect(request):
@@ -18,7 +18,7 @@ def landing_redirect(request):
 
 def integrated_home(request):
     """Integrated home that works for both marketing and app"""
-    return render_template(request, 'dashboard.html')
+    return render(request, 'dashboard.html')
 
 # URL patterns for seamless integration
 urlpatterns = [

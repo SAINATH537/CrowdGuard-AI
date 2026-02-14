@@ -1,5 +1,15 @@
 from app.extensions import db
-from flask_login import UserMixin
+import importlib
+
+# Optional runtime import of flask_login.UserMixin. Use a lightweight fallback when
+# the package is not installed so the module can still be imported in Django-only
+# environments or CI where Flask isn't required.
+UserMixin = type('UserMixin', (), {})
+try:
+    _fl = importlib.import_module('flask_login')
+    UserMixin = getattr(_fl, 'UserMixin', UserMixin)
+except Exception:
+    pass
 import datetime
 
 class User(db.Model, UserMixin):

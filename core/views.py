@@ -38,7 +38,10 @@ def _get_ml_model():
 
 
 def home(request: HttpRequest) -> HttpResponse:
-    # Use simple home page that works
+    current_user = get_current_user(request)
+    if not current_user.is_authenticated:
+        return redirect(reverse('auth.login'))
+    
     return render_template(request, 'home.html')
 
 

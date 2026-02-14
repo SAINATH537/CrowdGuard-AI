@@ -1,9 +1,36 @@
 {% extends "base.html" %}
-{% block title %}Neural Nexus Dashboard{% endblock %}
+{% block title %}SafeSight Dashboard{% endblock %}
 {% block content %}
-<iframe 
-  src="http://localhost:3000" 
-  style="width: 100%; height: 100vh; border: none;"
-  title="Landing Page">
-</iframe>
+<div style="padding: 20px;">
+  <h1>Welcome to SafeSight Dashboard</h1>
+  <p>Security monitoring and AI detection system</p>
+  
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 30px;">
+    <a href="/feed/" style="display: block; padding: 20px; background: #f0f0f0; text-decoration: none; color: #333; border-radius: 8px;">
+      <h3>📹 Live Feed</h3>
+      <p>View live camera feeds and AI detection</p>
+    </a>
+    
+    <a href="/history/" style="display: block; padding: 20px; background: #f0f0f0; text-decoration: none; color: #333; border-radius: 8px;">
+      <h3>📊 History</h3>
+      <p>View event history and analytics</p>
+    </a>
+    
+    <a href="/broadcast/" style="display: block; padding: 20px; background: #f0f0f0; text-decoration: none; color: #333; border-radius: 8px;">
+      <h3>📢 Broadcast</h3>
+      <p>Manage alarms and broadcasts</p>
+    </a>
+    
+    <a href="/analytics/" style="display: block; padding: 20px; background: #f0f0f0; text-decoration: none; color: #333; border-radius: 8px;">
+      <h3>📈 Analytics</h3>
+      <p>View system analytics and reports</p>
+    </a>
+  </div>
+  
+  <div style="margin-top: 30px;">
+    <a href="/auth/logout" style="padding: 10px 20px; background: #dc3545; color: white; text-decoration: none; border-radius: 4px;">
+      Logout
+    </a>
+  </div>
+</div>
 {% endblock %}
